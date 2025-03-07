@@ -1,0 +1,4 @@
+langchain-text-splitters
+langchain-community
+langgraph
+langchain[groq]
