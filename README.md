@@ -22,3 +22,5 @@ pip install -r requirements.txt
 ### Environment Setup
 Python 3.13+ installed
 Virtual environment created and activated.
+
+**Note:** For security, it's recommended to store your API key in a `.env` file or as an environment variable at the operating system level.

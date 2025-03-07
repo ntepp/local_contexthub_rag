@@ -2,3 +2,7 @@ langchain-text-splitters
 langchain-community
 langgraph
 langchain[groq]
+dotenv
+langchain-openai
+langchain-core
+bs4
