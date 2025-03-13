@@ -1,2 +1,27 @@
 .env
-venv
+# Virtual environment
+venv/
+
+# Byte-compiled Python files
+__pycache__/
+*.pyc
+
+# Local vector store
+chroma_db/
+
+# Local models
+models/
+
+# Redis data (if you have local persistence)
+dump.rdb
+
+# Log files
+*.log
+
+# IDE files (if applicable)
+.idea/
+.vscode/
+
+# OS generated files
+.DS_Store
+Thumbs.db

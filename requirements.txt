@@ -5,4 +5,9 @@ langchain[groq]
 dotenv
 langchain-openai
 langchain-core
+langchain-ollama
 bs4
+langchain_google_vertexai
+qdrant-client
+langchain-qdrant>=0.0.1
+redis

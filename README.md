@@ -24,3 +24,5 @@ Python 3.13+ installed
 Virtual environment created and activated.
 
 **Note:** For security, it's recommended to store your API key in a `.env` file or as an environment variable at the operating system level.
+
+`python -m src.main https://lilianweng.github.io/posts/2023-06-23-agent/`

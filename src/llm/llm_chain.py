@@ -1,16 +1,11 @@
-import getpass
-import os
+from langchain_ollama import ChatOllama
 
-from dotenv import load_dotenv
-from langchain.chat_models import init_chat_model
 
-# Load environment variables from .env file
-load_dotenv()
+def initialize_model_llm(model_name="deepseek-r1"):
 
-def initialize_groq_llm():
-    """Initializes the Groq LLM model."""
-    if not os.environ.get("GROQ_API_KEY"):
-        os.environ["GROQ_API_KEY"] = getpass.getpass("Enter API key for Groq: ")
-
-    llm = init_chat_model("llama3-8b-8192", model_provider="groq")
+    llm = ChatOllama(
+    model=model_name,
+    temperature=0,
+    # other params...
+    )
     return llm
