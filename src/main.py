@@ -1,27 +1,48 @@
 import sys
-from src.rag.rag_pipeline import create_and_run_graph
+from src.rag.rag_pipeline import create_and_run_graph, load_source
 
 def main():
     """Main entry point for the interactive RAG application."""
+    print("Welcome to the Interactive RAG Application!")
+
+    source = None  # Initially no source set
+
     while True:
-        source = input("Enter URL or local path (or type 'exit' to quit): ")
-        if source.lower() == 'exit':
-            break
+        if not source:
+            source = input("\nEnter URL (or type 'exit' to quit): ").strip()
+            if source.lower() == 'exit':
+                print("Goodbye!")
+                break
+            if not source:
+                print("Invalid input. Please provide a valid source.")
+                continue
 
-        try:
-            while True:
-                question = input("Enter your question (or type 'new' to load new source, 'exit' to quit): ")
-                if question.lower() == 'exit':
-                    return
-                if question.lower() == 'new':
-                    break
+            print("Loading source...")
+            try:
+                load_source(source)
+                print("Source loaded successfully!")
+            except Exception as e:
+                print(f"Error loading source: {e}")
+                source = None  # Reset source on error.
+                continue
 
-                answer = create_and_run_graph(source, question)
-                print("Answer:", answer)
-                print("-" * 40)
+        while True:
+            question = input("\nEnter your question (or type 'set source' to add a source, 'exit' to quit): ").strip()
 
-        except Exception as e:
-            print(f"An error occurred: {e}")
+            if question.lower() == 'exit':
+                print("Goodbye!")
+                return
+            if question.lower() == 'set source':
+                source = None
+                print("You can now set a new source.")
+                break  # Go back to setting a new source
+
+            try:
+                answer = create_and_run_graph(question)
+                print("\nAnswer:", answer)
+            except Exception as e:
+                print(f"\nAn error occurred: {e}")
+
             print("-" * 40)
 
 if __name__ == "__main__":
