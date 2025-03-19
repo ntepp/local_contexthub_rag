@@ -9,7 +9,7 @@ def main():
 
     while True:
         if not source:
-            source = input("\nEnter URL (or type 'exit' to quit): ").strip()
+            source = input("\nEnter URL or local path (or type 'exit' to quit): ").strip()
             if source.lower() == 'exit':
                 print("Goodbye!")
                 break

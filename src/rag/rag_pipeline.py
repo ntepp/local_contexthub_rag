@@ -10,6 +10,7 @@ from src.cache.factory import cache_url, get_redis_client, is_url_cached
 from src.data_loading.pdf_loader import PDFDataLoader
 from src.data_loading.text_splitter import split_text
 from src.data_loading.webpage_loader import WebDataLoader
+from src.utils.source_type import determine_source_type
 from src.vector_store.embeddings import initialize_embeddings
 from src.llm.llm_chain import initialize_model_llm
 from src.vector_store.factory import create_vector_store
@@ -63,7 +64,6 @@ def retrieve(state: State):
 
 
 def generate(state: State):
-    print(state)
     # If 'answer' is already set, no need to call the LLM
     if state.get("answer"):
         return {"answer": state["answer"]}
@@ -74,20 +74,25 @@ def generate(state: State):
     response = llm.invoke(messages)
     return {"answer": response.content}
 
-def load_source(post_url):
+def load_source(source):
     client = get_redis_client()
     
-    if not is_url_cached(client, post_url):
-        loader = PDFDataLoader(post_url)
-        # loader = WebDataLoader(url=post_url) 
+    if not is_url_cached(client, source):
+        if(determine_source_type(source) == "unknown"):
+            print(f"URL '{source}' is not a valid source.")
+            return
+        elif(determine_source_type(source) == "pdf"):
+            loader = PDFDataLoader(source)
+        else:
+            loader = WebDataLoader(url=source) 
         docs = loader.load()
         
         # 2. Split Data
         all_splits = split_text(docs)
         # Index chunks
         _ = vector_store.add_documents(documents=all_splits)
-        cache_url(client, post_url)
-        print(f"URL '{post_url}' cached successfully.")
+        cache_url(client, source)
+        print(f"URL '{source}' cached successfully.")
 
 def create_and_run_graph(question):
     # Compile application and test
