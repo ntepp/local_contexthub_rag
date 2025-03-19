@@ -63,6 +63,11 @@
  python -m src.main
  ```
 
+
+ ```bash
+uvicorn src.app:app
+ ```
+
 2.  **Enter a URL or local path:**
 
 * The application will prompt you to enter a URL or a local path.
