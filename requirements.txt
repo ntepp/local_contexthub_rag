@@ -13,3 +13,4 @@ langchain-qdrant>=0.0.1
 redis
 fastapi
 uvicorn
+pypdf

@@ -46,7 +46,7 @@
     ollama pull deepseek-r1 # or your chosen deepseek-r1 model
     ollama pull nomic-embed-text # Download the nomic embed text model
     ```
-
+    You can add your custom model by setting the variable `LLM_MODEL_NAME='deepseek-r1'` in .env
 5. **Start Ollama, Redis, and Qdrant:**
    *Ollama must be running locally. Redis and Qdrant can be run locally or via docker.*
     ```bash
@@ -59,10 +59,13 @@
 
 1.  **Run the application:**
 
+To interact with command line
+
  ```bash
  python -m src.main
  ```
 
+To Interact with Swagger
 
  ```bash
 uvicorn src.app:app

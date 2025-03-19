@@ -7,6 +7,7 @@ from langchain_core.prompts import PromptTemplate
 from typing_extensions import List, TypedDict
 from langchain_core.prompts import PromptTemplate
 from src.cache.factory import cache_url, get_redis_client, is_url_cached
+from src.data_loading.pdf_loader import PDFDataLoader
 from src.data_loading.text_splitter import split_text
 from src.data_loading.webpage_loader import WebDataLoader
 from src.vector_store.embeddings import initialize_embeddings
@@ -77,7 +78,8 @@ def load_source(post_url):
     client = get_redis_client()
     
     if not is_url_cached(client, post_url):
-        loader = WebDataLoader(url=post_url) 
+        loader = PDFDataLoader(post_url)
+        # loader = WebDataLoader(url=post_url) 
         docs = loader.load()
         
         # 2. Split Data
