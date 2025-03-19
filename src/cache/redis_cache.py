@@ -55,7 +55,7 @@ class RedisCacheManager(BaseCacheManager):
         Returns:
             bool: True if key exists, False otherwise.
         """
-        self.delete_all(self)
+        
         return bool(self._client.exists(key))
     
     def cache(
