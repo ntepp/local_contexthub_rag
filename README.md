@@ -101,32 +101,39 @@ This project is primarily based on the LangChain RAG tutorials found here: [http
 * **Vector Storage:** Qdrant vector storage is configured in `src/vector_store/store.py`.
 * **Redis Caching:** Redis caching is configured in `src/utils/cache.py`.
 
+
 ## Project Structure
+
+The project structure is organized as follows:
 
 ```
 local_contexthub_rag/
 ├── src/
-│   ├── data_loading/
-│   │   ├── loaders.py
-│   │   ├── text_splitter.py
+│   ├── app.py                # FastAPI application entry point
+│   ├── main.py               # Command line interface entry point
 │   ├── llm/
-│   │   ├── llm_chain.py
-│   ├── rag/
-│   │   ├── rag_pipeline.py
+│   │   └── llm_chain.py      # Configuration for local LLM models
 │   ├── vector_store/
-│   │   ├── embeddings.py
-│   │   ├── store.py
+│   │   ├── embeddings.py     # Configuration for embeddings
+│   │   └── store.py          # Configuration for Qdrant vector storage
 │   ├── utils/
-│   │   ├── cache.py
-│   ├── main.py
-├── models/
-├── requirements.txt
-├── Dockerfile
-├── docker-compose.yml
-├── .gitignore
-└── README.md
+│   │   └── cache.py          # Configuration for Redis caching
+│   └── loaders/
+│       └── web_loader.py     # WebBaseLoader implementation
+├── .env                      # Environment variables
+├── requirements.txt          # Python dependencies
+├── README.md                 # Project documentation
+└── docker-compose.yml        # Docker configuration for Redis and Qdrant
 ```
 
-## Contributions
+## License
 
-Contributions are welcome! Feel free to submit pull requests to improve the project.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+This project is licensed under the MIT License — see the [MIT License](https://opensource.org/licenses/MIT) page for details.  
+
+## Contributing
+
+Contributions are welcome! Feel free to fork the repository, submit issues, and create pull requests.
+
+By contributing, you agree that your contributions will be licensed under the same MIT License.
