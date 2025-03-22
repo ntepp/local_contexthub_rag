@@ -11,6 +11,24 @@
 * **Redis Caching:** Accelerates response times by storing loaded document sources, eliminating redundant processing.
 * **Interactive Interface:** Allows asking multiple questions about the same loaded context.
 
+## LangChain & LangGraph Integration
+
+This project leverages the power of LangChain and LangGraph to create a flexible and efficient RAG pipeline.
+
+* **LangChain:**
+    * Used for loading and processing documents from various sources (local files, web pages).
+    * Handles text splitting and embedding generation.
+    * Provides tools for interacting with vector stores (Qdrant).
+* **LangGraph:**
+    * Orchestrates the RAG pipeline by defining the steps involved in retrieving relevant documents and generating answers.
+    * Allows for the creation of stateful, multi-actor applications, enabling complex interactions with LLMs and vector stores.
+    * The project uses LangGraph to define the interaction between the retreival of the context, and the generation of the response by the LLM.
+* **LangSmith:**
+    * Provides observability and debugging capabilities for the RAG pipeline.
+    * Allows for tracking and visualizing the execution of the LangChain and LangGraph components.
+    * Helps in identifying bottlenecks and improving the performance of the application.
+    * Allows to create feedback datasets to improve the model.
+
 ## Prerequisites
 
 * Python 3.9+
@@ -81,6 +99,7 @@ uvicorn src.app:app
 * After loading a source, you can ask questions about its content.
 * Enter `set source` to load a new source, or `exit` to quit.
 
+
 ## Documentation and Custom Inputs
 
 This project is primarily based on the LangChain RAG tutorials found here: [https://python.langchain.com/docs/tutorials/rag/](https://python.langchain.com/docs/tutorials/rag/).
@@ -93,6 +112,7 @@ This project is primarily based on the LangChain RAG tutorials found here: [http
 * **Interactive Source Loading:** The user can dynamically load new sources using the `set source` command without restarting the application, enhancing usability.
 * **Focused Web Loading:** The application uses WebBaseLoader with a SoupStrainer to focus the scraping to the main content of a webpage.
 * **Separate source and question steps:** the source is loaded, and then the user is prompted for question.
+
 
 ## Configuration
 
@@ -109,21 +129,40 @@ The project structure is organized as follows:
 ```
 local_contexthub_rag/
 ├── src/
-│   ├── app.py                # FastAPI application entry point
-│   ├── main.py               # Command line interface entry point
-│   ├── llm/
-│   │   └── llm_chain.py      # Configuration for local LLM models
-│   ├── vector_store/
-│   │   ├── embeddings.py     # Configuration for embeddings
-│   │   └── store.py          # Configuration for Qdrant vector storage
-│   ├── utils/
-│   │   └── cache.py          # Configuration for Redis caching
-│   └── loaders/
-│       └── web_loader.py     # WebBaseLoader implementation
-├── .env                      # Environment variables
-├── requirements.txt          # Python dependencies
-├── README.md                 # Project documentation
-└── docker-compose.yml        # Docker configuration for Redis and Qdrant
+│   ├── cache/                 # Caching module
+│   │   ├── base.py            # Base caching abstract classes
+│   │   ├── factory.py         # Factory for creating cache strategies
+│   │   └── redis_cache.py     # Redis-specific caching implementation
+│   │
+│   ├── data_loading/          # Data loading strategies
+│   │   ├── abstract_loader.py # Abstract base loader
+│   │   ├── pdf_loader.py      # PDF document loader
+│   │   ├── text_splitter.py   # Text splitting utility
+│   │   ├── webpage_loader.py  # Webpage loading strategy
+│   │   └── website_loader.py  # Website crawling loader
+│   │
+│   ├── llm/                   # Language Model module
+│   │   ├── llm_chain.py       # LLM configuration and chaining
+│   │   └── rag_pipeline.py    # RAG pipeline implementation
+│   │
+│   ├── utils/                 # Utility modules
+│   │   └── source_type.py     # Source type detection utilities
+│   │
+│   ├── vector_store/          # Vector storage module
+│   │   ├── __init__.py        # Package initialization
+│   │   ├── base.py            # Base vector store abstract classes
+│   │   ├── embeddings.py      # Embedding model configuration
+│   │   ├── factory.py         # Factory for vector store creation
+│   │   ├── in_memory.py       # In-memory vector store implementation
+│   │   └── qdrant.py          # Qdrant vector store implementation
+│   │
+│   ├── app.py                 # Main application entry point
+│   └── main.py                # Command-line interface
+│
+├── .env                       # Environment variables configuration
+├── .gitignore                 # Git ignore file
+├── requirements.txt           # Python project dependencies
+└── README.md                  # Project documentation
 ```
 
 ## License
